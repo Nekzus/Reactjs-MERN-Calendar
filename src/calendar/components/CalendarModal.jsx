@@ -3,11 +3,10 @@ import { addHours, differenceInSeconds } from 'date-fns/esm';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Modal from 'react-modal';
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import es from 'date-fns/locale/es';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useCalendarStore, useUiStore } from '../../hooks';
-import { onCloseDateModal } from '../../store';
 
 registerLocale('es', es);
 

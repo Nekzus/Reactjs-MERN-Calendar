@@ -1,11 +1,11 @@
 import { useCalendarStore, useUiStore } from '../../hooks';
 
 export const FabDelete = () => {
-    const { startSeletingEvent, hasEventSelected } = useCalendarStore();
+    const { startDeletingEvent, hasEventSelected } = useCalendarStore();
     const { isDateModalOpen } = useUiStore();
 
     const handleDelete = () => {
-        startSeletingEvent();
+        startDeletingEvent();
     };
 
     return (
