@@ -23,7 +23,8 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-export const CalendarModal = z => {
+export const CalendarModal = () => {
+    const { user } = useAuthStore();
     const { isDateModalOpen, closeDateModal } = useUiStore();
     const { activeEvent, startSavingEvent } = useCalendarStore();
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -86,6 +87,10 @@ export const CalendarModal = z => {
         setFormSubmitted(false);
     };
 
+    const isMyEvent =
+        user.uid === activeEvent?.user._id ||
+        user.uid === activeEvent?.user.uid;
+
     return (
         <Modal
             isOpen={isDateModalOpen}
@@ -111,6 +116,7 @@ export const CalendarModal = z => {
                         dateFormat="Pp"
                         showTimeSelect
                         timeCaption="Hora"
+                        disabled={!isMyEvent}
                     />
                 </div>
 
@@ -125,6 +131,7 @@ export const CalendarModal = z => {
                         dateFormat="Pp"
                         showTimeSelect
                         timeCaption="Hora"
+                        disabled={!isMyEvent}
                     />
                 </div>
 
@@ -139,6 +146,7 @@ export const CalendarModal = z => {
                         autoComplete="off"
                         value={formValues.title}
                         onChange={onInputChange}
+                        disabled={!isMyEvent}
                     />
                     <small
                         id="emailHelp"
@@ -157,6 +165,7 @@ export const CalendarModal = z => {
                         name="notes"
                         value={formValues.notes}
                         onChange={onInputChange}
+                        disabled={!isMyEvent}
                     ></textarea>
                     <small
                         id="emailHelp"
@@ -169,6 +178,7 @@ export const CalendarModal = z => {
                 <button
                     type="submit"
                     className="btn btn-outline-primary btn-block"
+                    hidden={!isMyEvent}
                 >
                     <i className="far fa-save"></i>
                     <span> Guardar</span>
