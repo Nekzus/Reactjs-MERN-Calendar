@@ -65,7 +65,7 @@ export const LoginPage = () => {
                     <form onSubmit={loginSubmit}>
                         <div className="form-group mb-2">
                             <input
-                                type="text"
+                                type="email"
                                 className="form-control"
                                 placeholder="Correo"
                                 name="loginEmail"
