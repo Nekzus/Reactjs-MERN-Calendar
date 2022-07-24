@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import es from 'date-fns/locale/es';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useCalendarStore, useUiStore } from '../../hooks';
+import { useAuthStore, useCalendarStore, useUiStore } from '../../hooks';
 
 registerLocale('es', es);
 
@@ -23,7 +23,8 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-export const CalendarModal = () => {
+export const CalendarModal = z => {
+    const { user } = useAuthStore();
     const { isDateModalOpen, closeDateModal } = useUiStore();
     const { activeEvent, startSavingEvent } = useCalendarStore();
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -33,6 +34,10 @@ export const CalendarModal = () => {
         start: new Date(),
         end: addHours(new Date(), 2),
     });
+
+    const isMyEvent =
+        user.uid === activeEvent?.user._id ||
+        user.uid === activeEvent?.user.uid;
 
     const titleClass = useMemo(() => {
         if (!formSubmitted) return '';
@@ -111,6 +116,7 @@ export const CalendarModal = () => {
                         dateFormat="Pp"
                         showTimeSelect
                         timeCaption="Hora"
+                        disabled={!isMyEvent}
                     />
                 </div>
 
@@ -125,6 +131,7 @@ export const CalendarModal = () => {
                         dateFormat="Pp"
                         showTimeSelect
                         timeCaption="Hora"
+                        disabled={!isMyEvent}
                     />
                 </div>
 
@@ -139,6 +146,7 @@ export const CalendarModal = () => {
                         autoComplete="off"
                         value={formValues.title}
                         onChange={onInputChange}
+                        disabled={!isMyEvent}
                     />
                     <small
                         id="emailHelp"
@@ -157,6 +165,7 @@ export const CalendarModal = () => {
                         name="notes"
                         value={formValues.notes}
                         onChange={onInputChange}
+                        disabled={!isMyEvent}
                     ></textarea>
                     <small
                         id="emailHelp"
@@ -169,6 +178,7 @@ export const CalendarModal = () => {
                 <button
                     type="submit"
                     className="btn btn-outline-primary btn-block"
+                    hidden={!isMyEvent}
                 >
                     <i className="far fa-save"></i>
                     <span> Guardar</span>
